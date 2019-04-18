@@ -689,7 +689,7 @@ body {
 		padding: 1rem;
 	}
 
-	.results,
+	.results__list,
 	.shopping__list {
 		height: 300px;
 		overflow-y: auto;
