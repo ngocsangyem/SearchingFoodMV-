@@ -13,6 +13,7 @@ export default class Recipe {
 			);
 			this.title = res.data.recipe.title;
 			this.author = res.data.recipe.publisher;
+			this.img = res.data.recipe.image_url;
 			this.url = res.data.recipe.source_url;
 			this.ingredients = res.data.recipe.ingredients;
 		} catch (err) {
@@ -42,7 +43,7 @@ export default class Recipe {
 			"cups",
 			"pounds"
 		];
-		let unitShort = [
+		let unitsShort = [
 			"tbsp",
 			"tbsp",
 			"oz",
@@ -52,12 +53,12 @@ export default class Recipe {
 			"cup",
 			"pound"
 		];
-
+		let units = [...unitsShort, "kg", "g"];
 		let newIngredients = this.ingredients.map(el => {
 			// Uniform units
 			let ingredient = el.toLowerCase();
 			unitsLong.forEach((unit, i) => {
-				ingredient = ingredient.replace(unit, unitShort[i]);
+				ingredient = ingredient.replace(unit, unitsShort[i]);
 			});
 
 			// Remove parenthese / remove ""
@@ -101,8 +102,8 @@ export default class Recipe {
 					ingredient
 				};
 			}
-
 			return objIng;
 		});
+		this.ingredients = newIngredients;
 	}
 }

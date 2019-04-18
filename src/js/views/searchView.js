@@ -11,6 +11,12 @@ export const clearResults = () => {
 	elements.searchResPages.innerHTML = "";
 };
 
+export const highlightSelected = id => {
+	document
+		.querySelector(`a[href="${id}"]`)
+		.classList.add("results__link--active");
+};
+
 /**
  *
  * // 'Pasta with tomato and spinach'
@@ -54,10 +60,14 @@ const renderRecipe = recipe => {
 
 // type: 'prev' or 'next'
 const createButton = (page, type) => `
-		<button class="btn-inline results__btn--${type}" data-goto="${type === 'prev' ? page - 1 : page + 1}">
-			<span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
+		<button class="btn-inline results__btn--${type}" data-goto="${
+	type === "prev" ? page - 1 : page + 1
+}">
+			<span>Page ${type === "prev" ? page - 1 : page + 1}</span>
 			<svg class="search__icon">
-				<use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
+				<use href="img/icons.svg#icon-triangle-${
+					type === "prev" ? "left" : "right"
+				}"></use>
 			</svg>
 		</button>
 	`;
@@ -67,22 +77,21 @@ const renderButtons = (page, numResults, resPerPage) => {
 	let button;
 	if (page === 1 && pages > 1) {
 		// Only button to go to next page
-		button = createButton(page, 'next');
+		button = createButton(page, "next");
 	} else if (page < pages) {
 		// Both button
-		button = 
-			`
-				${createButton(page, 'prev')}
-				${createButton(page, 'next')}
+		button = `
+				${createButton(page, "prev")}
+				${createButton(page, "next")}
 				
 			`;
 	} else if (page === pages && pages > 1) {
 		// Only button to go to prev page
-		button = createButton(page, 'prev');
+		button = createButton(page, "prev");
 	}
 	console.log(`page: ${page}`);
-	
-	elements.searchResPages.insertAdjacentHTML('afterbegin', button);
+
+	elements.searchResPages.insertAdjacentHTML("afterbegin", button);
 };
 
 export const renderResults = (recipes, page = 1, resPerPage = 10) => {
@@ -91,7 +100,7 @@ export const renderResults = (recipes, page = 1, resPerPage = 10) => {
 		// pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 		* page 1 = 0 / page 9 = 10
 	 */
-	 // Render result of current page
+	// Render result of current page
 	let start = (page - 1) * resPerPage;
 	let end = page * resPerPage;
 	recipes.slice(start, end).forEach(renderRecipe);
