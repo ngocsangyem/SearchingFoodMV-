@@ -16,7 +16,6 @@ import { elements, renderLoader, clearLoader } from "./views/base";
  * - Liked recipes
  */
 const state = {};
-window.state = state;
 /**
  * SEARCH CONTROLLER
  */
@@ -54,7 +53,7 @@ elements.searchResPages.addEventListener("click", e => {
 		let goToPage = parseInt(btn.dataset.goto, 10); // 0 -> 9;
 		searchView.clearResults();
 		searchView.renderResults(state.search.result, goToPage);
-		console.log(goToPage);
+		// console.log(goToPage);
 	}
 });
 
@@ -64,7 +63,7 @@ elements.searchResPages.addEventListener("click", e => {
 const controlRecipe = async () => {
 	// Get Id from url
 	let id = window.location.hash.replace("#", "");
-	console.log(id);
+	// console.log(id);
 
 	if (id) {
 		// Prepare UI for changes
@@ -171,6 +170,20 @@ const controlLike = () => {
 	}
 	likeView.toggleLikeMenu(state.likes.getNumLikes());
 };
+
+// Restore liked when the page load
+window.addEventListener("load", () => {
+	state.likes = new Likes();
+
+	// Restore likes
+	state.likes.readStorage();
+
+	// Toggle button
+	likeView.toggleLikeMenu(state.likes.getNumLikes());
+
+	// Render the wxisting likes
+	state.likes.likes.forEach(like => likeView.renderLike(like));
+});
 
 // Handling recipe button clicks
 elements.recipe.addEventListener("click", e => {
