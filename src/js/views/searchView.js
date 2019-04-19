@@ -17,7 +17,7 @@ export const highlightSelected = id => {
 		el.classList.remove("results__link--active");
 	});
 	document
-		.querySelector(`a[href="${id}"]`)
+		.querySelector(`.results__link[href*="${id}"]`)
 		.classList.add("results__link--active");
 };
 
@@ -30,7 +30,7 @@ export const highlightSelected = id => {
  * acc: 15 / acc + cur.length = 18 / newTitle = ["Pasta", "with", "tomato"]
  */
 
-const limitRecipeTitle = (title, limit = 17) => {
+export const limitRecipeTitle = (title, limit = 17) => {
 	let newTitle = [];
 	if (title.length > limit) {
 		title.split(" ").reduce((acc, cur) => {
